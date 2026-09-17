@@ -44,7 +44,7 @@ export function LocaleSwitcher({ pathname: pathnameProp, className = '' }: Local
             className={`rounded-full px-3 py-1.5 transition ${
               isCurrent
                 ? 'bg-[var(--primary)] text-white'
-                : 'text-[var(--muted)] hover:text-[var(--primary)]'
+                : 'text-[var(--muted)] hover:text-[var(--primary-text)]'
             }`}
           >
             {option.short}

@@ -107,7 +107,8 @@ export function AssessmentForm({ dict, businessNumber }: AssessmentFormProps) {
   const question = copy.questions[stepKey];
 
   return (
-    <div className="flex flex-col gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+    <div className="flex flex-col gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] sm:p-8">
+      <div key={stepKey} className="quiz-slide">
       <AssessmentStep
         step={step + 1}
         total={total}
@@ -174,13 +175,14 @@ export function AssessmentForm({ dict, businessNumber }: AssessmentFormProps) {
           </div>
         )}
       </AssessmentStep>
+      </div>
 
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
         <button
           type="button"
           onClick={goBack}
           disabled={step === 0}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--border)] px-7 py-3 text-base font-bold transition enabled:hover:border-[var(--primary)] enabled:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--border)] px-7 py-3 text-base font-bold transition enabled:hover:border-[var(--primary)] enabled:hover:text-[var(--primary-text)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {copy.back}
         </button>
@@ -188,7 +190,7 @@ export function AssessmentForm({ dict, businessNumber }: AssessmentFormProps) {
           <button
             type="button"
             onClick={submit}
-            className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+            className="btn-shine btn-press inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             {copy.submit}
           </button>
@@ -197,7 +199,7 @@ export function AssessmentForm({ dict, businessNumber }: AssessmentFormProps) {
             type="button"
             onClick={goNext}
             disabled={stepKey !== 'name' && !values[stepKey as ChoiceKey]}
-            className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+            className="btn-press inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {copy.next}
           </button>

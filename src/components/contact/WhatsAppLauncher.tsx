@@ -24,7 +24,7 @@ export function WhatsAppLauncher({ dict, businessNumber }: WhatsAppLauncherProps
         <div
           role="dialog"
           aria-label={dict.whatsapp.greeting}
-          className="w-64 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-3 shadow-[var(--shadow-soft)]"
+          className="animate-pop-in w-64 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-3 shadow-[var(--shadow-lift)]"
         >
           <p className="px-2 pb-2 pt-1 text-sm font-bold">{dict.whatsapp.greeting}</p>
           <ul className="flex flex-col gap-1">
@@ -48,8 +48,14 @@ export function WhatsAppLauncher({ dict, businessNumber }: WhatsAppLauncherProps
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-label={dict.whatsapp.label}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--whatsapp)] text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--whatsapp)]"
+        className="btn-press relative flex h-14 w-14 items-center justify-center rounded-full bg-[var(--whatsapp)] text-white shadow-[var(--shadow-lift)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--whatsapp)]"
       >
+        {!open && (
+          <span aria-hidden="true" className="absolute -end-0.5 -top-0.5 flex h-4 w-4">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-60" />
+            <span className="relative inline-flex h-4 w-4 rounded-full border-2 border-[var(--bg)] bg-[var(--accent)]" />
+          </span>
+        )}
         {open ? <X size={24} aria-hidden="true" /> : <MessageCircle size={26} aria-hidden="true" />}
       </button>
     </div>

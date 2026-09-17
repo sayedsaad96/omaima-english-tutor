@@ -6,9 +6,9 @@ const variants: Record<Variant, string> = {
   primary:
     'bg-[var(--primary)] text-white hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] shadow-[var(--shadow-soft)]',
   secondary:
-    'bg-[var(--surface)] text-[var(--ink)] border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]',
+    'bg-[var(--surface)] text-[var(--ink)] border border-[var(--border)] hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]',
   ghost:
-    'text-[var(--primary)] hover:bg-[var(--primary-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]',
+    'text-[var(--primary-text)] hover:bg-[var(--primary-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]',
 };
 
 interface BaseProps {

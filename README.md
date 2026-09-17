@@ -8,6 +8,22 @@ not an LMS: no accounts, payments, dashboards, or stored learner data.
 Spec: `docs/superpowers/specs/2026-09-17-omaima-english-tutor-website-design.md`
 Plan: `docs/superpowers/plan/2026-09-17-omaima-english-tutor-website-implementation-plan.md`
 
+## Design system & theming
+
+- All colors live as CSS variables in `src/app/globals.css` (`:root` for light,
+  `[data-theme="dark"]` for dark). Components must use `var(--…)` tokens —
+  never hardcode theme colors.
+- `text-[var(--primary-text)]` is the readable primary for body text/links in
+  both modes; `bg-[var(--primary)]` stays fixed so white button text keeps its
+  contrast. Fixed-white surfaces (e.g. spotlight CTAs) also keep `--primary`.
+- Theme preference persists in `localStorage` (`omaima-theme`); an inline
+  script in `src/app/layout.tsx` applies it before paint (no flash), defaulting
+  to the OS color scheme. `ThemeToggle` uses `useSyncExternalStore` so SSR and
+  hydration always match.
+- Animations are CSS-only (`globals.css` keyframes + `Reveal` with
+  `delay`/`variant` props) and fully disabled under
+  `prefers-reduced-motion: reduce`.
+
 ## Tech stack
 
 Next.js App Router · React · TypeScript · Tailwind CSS · Zod · Vitest +

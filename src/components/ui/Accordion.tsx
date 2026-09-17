@@ -27,8 +27,10 @@ export function Accordion({ items, defaultOpen = null }: AccordionProps) {
         return (
           <div
             key={item.id}
-            className={`rounded-2xl border-2 transition ${
-              isOpen ? 'border-[var(--primary)] bg-[var(--surface)]' : 'border-[var(--border)] bg-[var(--surface)]'
+            className={`rounded-2xl border-2 transition-all duration-300 ${
+              isOpen
+                ? 'border-[var(--primary)] bg-[var(--surface)] shadow-[var(--shadow-soft)]'
+                : 'border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)]'
             }`}
           >
             <h3>
@@ -52,10 +54,12 @@ export function Accordion({ items, defaultOpen = null }: AccordionProps) {
               id={panelId}
               role="region"
               aria-labelledby={buttonId}
-              hidden={!isOpen}
-              className="px-5 pb-5 text-base leading-relaxed text-[var(--muted)]"
+              data-open={isOpen ? 'true' : 'false'}
+              className="acc-panel px-5 text-base leading-relaxed text-[var(--muted)]"
             >
-              {item.answer}
+              <div>
+                <p className="pb-5">{item.answer}</p>
+              </div>
             </div>
           </div>
         );

@@ -70,19 +70,19 @@ export function ServicesSection({ locale, dict, selectedAudience }: ServicesSect
         />
       </Reveal>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        {order.map((key) => {
+        {order.map((key, index) => {
           const service = dict.services.items[key];
           const meta = serviceMeta[key];
           const Icon = meta.icon;
           const emphasized = relevant.includes(key);
           return (
-            <Reveal key={key}>
+            <Reveal key={key} delay={(index % 2) * 90}>
               <article
                 data-service={key}
                 data-emphasized={emphasized ? 'true' : 'false'}
-                className={`flex h-full flex-col gap-4 rounded-[var(--radius-card)] border-2 p-6 transition ${meta.accent} ${
+                className={`card-lift flex h-full flex-col gap-4 rounded-[var(--radius-card)] border-2 p-6 transition ${meta.accent} ${
                   emphasized
-                    ? 'border-[var(--primary)] shadow-[var(--shadow-soft)]'
+                    ? 'border-[var(--primary)] shadow-[var(--shadow-lift)]'
                     : 'border-transparent hover:border-[var(--primary)]'
                 }`}
               >
@@ -111,7 +111,7 @@ export function ServicesSection({ locale, dict, selectedAudience }: ServicesSect
                 </ul>
                 <Link
                   href={`/${locale}/lessons#${meta.anchor}`}
-                  className="mt-auto inline-flex min-h-[44px] items-center gap-2 pt-2 text-base font-bold text-[var(--primary)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+                  className="mt-auto inline-flex min-h-[44px] items-center gap-2 pt-2 text-base font-bold text-[var(--primary-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
                 >
                   {dict.services.cta}
                   <Arrow size={18} aria-hidden="true" />

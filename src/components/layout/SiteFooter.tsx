@@ -16,7 +16,11 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
   const email = siteConfig.email;
 
   return (
-    <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface)]">
+    <footer className="relative mt-16 border-t border-[var(--border)] bg-[var(--surface)]">
+      <div
+        aria-hidden="true"
+        className="animate-pan absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--primary)]"
+      />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
           <p className="text-base font-bold text-[var(--ink)]">{dict.footer.brand}</p>
@@ -31,7 +35,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm font-semibold text-[var(--ink)] hover:text-[var(--primary)]"
+                  className="text-sm font-semibold text-[var(--ink)] hover:text-[var(--primary-text)]"
                 >
                   {link.label}
                 </Link>
@@ -40,7 +44,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
             <li>
               <Link
                 href={`/${locale}/privacy`}
-                className="text-sm font-semibold text-[var(--ink)] hover:text-[var(--primary)]"
+                className="text-sm font-semibold text-[var(--ink)] hover:text-[var(--primary-text)]"
               >
                 {dict.footer.privacy}
               </Link>
@@ -60,7 +64,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--ink)] hover:text-[var(--primary)]"
+                  className="text-[var(--ink)] hover:text-[var(--primary-text)]"
                 >
                   {dict.footer.whatsapp}
                 </a>
@@ -68,7 +72,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
             )}
             {email !== '' && (
               <li>
-                <a href={`mailto:${email}`} className="text-[var(--ink)] hover:text-[var(--primary)]">
+                <a href={`mailto:${email}`} className="text-[var(--ink)] hover:text-[var(--primary-text)]">
                   {dict.footer.email}: {email}
                 </a>
               </li>
@@ -81,11 +85,11 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
           </ul>
           <p className="mt-4 text-sm text-[var(--muted)]">
             {dict.footer.language}:{' '}
-            <Link href="/en" hrefLang="en" className="font-semibold hover:text-[var(--primary)]">
+            <Link href="/en" hrefLang="en" className="font-semibold hover:text-[var(--primary-text)]">
               English
             </Link>{' '}
             •{' '}
-            <Link href="/ar" hrefLang="ar" className="font-semibold hover:text-[var(--primary)]">
+            <Link href="/ar" hrefLang="ar" className="font-semibold hover:text-[var(--primary-text)]">
               العربية
             </Link>
           </p>

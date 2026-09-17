@@ -74,17 +74,18 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+    <div className="flex flex-col gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] sm:p-8">
       <QuizProgress current={state.index + 1} total={total} label={dict.quiz.questionOf} />
-      <QuizQuestion
-        key={question.id}
-        prompt={question.prompt}
-        choices={question.choices}
-        name={`quiz-${question.id}`}
-        selected={selected}
-        onSelect={select}
-        hint={dict.quiz.chooseAnswer}
-      />
+      <div key={question.id} className="quiz-slide flex flex-col gap-4">
+        <QuizQuestion
+          prompt={question.prompt}
+          choices={question.choices}
+          name={`quiz-${question.id}`}
+          selected={selected}
+          onSelect={select}
+          hint={dict.quiz.chooseAnswer}
+        />
+      </div>
       {!selected && (
         <p className="text-sm font-medium text-[var(--muted)]" role="note">
           {dict.quiz.needAnswer}
@@ -95,7 +96,7 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
           type="button"
           onClick={goBack}
           disabled={state.index === 0}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--border)] px-7 py-3 text-base font-bold transition enabled:hover:border-[var(--primary)] enabled:hover:text-[var(--primary)] disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--border)] px-7 py-3 text-base font-bold transition enabled:hover:border-[var(--primary)] enabled:hover:text-[var(--primary-text)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {dict.quiz.back}
         </button>

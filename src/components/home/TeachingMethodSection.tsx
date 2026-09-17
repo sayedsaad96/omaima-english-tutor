@@ -17,10 +17,10 @@ export function TeachingMethodSection({ dict }: { dict: SiteDictionary }) {
       <ol className="relative mx-auto mt-10 max-w-3xl">
         <span
           aria-hidden="true"
-          className="absolute bottom-6 start-[27px] top-6 w-0.5 bg-[var(--border)]"
+          className="absolute bottom-6 start-[27px] top-6 w-0.5 bg-gradient-to-b from-[var(--primary)] via-[var(--border)] to-[var(--accent)]"
         />
         {dict.method.steps.map((step, index) => (
-          <Reveal key={step.title} as="li" className="relative flex gap-4 pb-6 last:pb-0">
+          <Reveal key={step.title} as="li" delay={index * 60} className="relative flex gap-4 pb-6 last:pb-0">
             <span
               aria-hidden="true"
               className="z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-4 border-[var(--bg)] bg-[var(--primary)] text-lg font-extrabold text-white"

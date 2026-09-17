@@ -8,8 +8,12 @@ export function AssessmentTeaser({ locale, dict }: { locale: Locale; dict: SiteD
   return (
     <section aria-labelledby="assessment-teaser-heading" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
       <Reveal>
-        <div className="grid items-center gap-8 rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 sm:p-12 md:grid-cols-[1fr_auto]">
-          <div className="flex flex-col items-start gap-4">
+        <div className="card-lift relative grid items-center gap-8 overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-[var(--shadow-soft)] sm:p-12 md:grid-cols-[1fr_auto]">
+          <div
+            aria-hidden="true"
+            className="animate-blob pointer-events-none absolute -end-20 -top-20 h-64 w-64 rounded-full bg-[var(--mint)] opacity-70 blur-2xl"
+          />
+          <div className="relative flex flex-col items-start gap-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-[var(--mint)] px-4 py-1.5 text-sm font-bold text-[var(--success-dark)]">
               <CalendarCheck size={16} aria-hidden="true" />
               {dict.assessmentTeaser.intro.eyebrow}
@@ -37,7 +41,7 @@ export function AssessmentTeaser({ locale, dict }: { locale: Locale; dict: SiteD
           </div>
           <Link
             href={`/${locale}/free-assessment`}
-            className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[var(--primary)] px-8 py-4 text-lg font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+            className="btn-shine btn-press relative inline-flex min-h-[56px] items-center justify-center rounded-full bg-[var(--primary)] px-8 py-4 text-lg font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             {dict.assessmentTeaser.cta}
           </Link>

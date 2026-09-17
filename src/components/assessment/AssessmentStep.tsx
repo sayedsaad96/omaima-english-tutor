@@ -47,7 +47,7 @@ export function AssessmentStep({
         {hint ? <p className="text-sm font-medium text-[var(--muted)]">{hint}</p> : null}
         {children}
         {error ? (
-          <p role="alert" id={errorId} className="rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">
+          <p role="alert" id={errorId} className="form-error">
             {error}
           </p>
         ) : null}

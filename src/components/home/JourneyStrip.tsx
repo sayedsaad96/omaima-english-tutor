@@ -17,7 +17,7 @@ export function JourneyStrip({ dict }: { dict: SiteDictionary }) {
         </Reveal>
         <ol className="mt-8 grid gap-4 md:grid-cols-3">
           {dict.journey.steps.map((step, index) => (
-            <Reveal key={step.title} as="li" className="relative rounded-[var(--radius-card)] bg-[var(--bg)] p-5">
+            <Reveal key={step.title} as="li" delay={index * 90} className="relative rounded-[var(--radius-card)] bg-[var(--bg)] p-5 shadow-[var(--shadow-soft)] transition-shadow duration-300 hover:shadow-[var(--shadow-lift)]">
               <span
                 aria-hidden="true"
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--primary)] text-base font-bold text-white"

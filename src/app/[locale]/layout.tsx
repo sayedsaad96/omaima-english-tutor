@@ -42,7 +42,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       data-testid="locale-root"
       lang={locale}
       dir={dict.dir}
-      className={`${fontClass} flex min-h-full flex-col bg-[var(--bg)] text-[var(--ink)]`}
+      className={`${fontClass} theme-fade flex min-h-full flex-col bg-[var(--bg)] text-[var(--ink)]`}
     >
       <a
         href="#main-content"

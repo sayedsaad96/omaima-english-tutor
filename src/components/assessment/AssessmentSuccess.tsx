@@ -49,7 +49,7 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="animate-pop-in flex flex-col gap-5">
       <div className="flex items-center gap-3 rounded-[var(--radius-card)] bg-[var(--mint)] p-5">
         <span
           aria-hidden="true"
@@ -108,7 +108,7 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
           <button
             type="button"
             onClick={copyMessage}
-            className="inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-full border-2 border-[var(--border)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+            className="inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-full border-2 border-[var(--border)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             <Copy size={18} aria-hidden="true" />
             {copied ? copy.success.copied : copy.success.copyMessage}
@@ -116,7 +116,7 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
           <button
             type="button"
             onClick={onRestart}
-            className="inline-flex min-h-[52px] items-center justify-center rounded-full px-7 py-3 text-base font-bold text-[var(--muted)] transition hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+            className="inline-flex min-h-[52px] items-center justify-center rounded-full px-7 py-3 text-base font-bold text-[var(--muted)] transition hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             {copy.success.bookAgain}
           </button>

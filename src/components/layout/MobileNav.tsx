@@ -18,7 +18,7 @@ export function MobileNav({ locale, dict, open, onClose }: MobileNavProps) {
   return (
     <div
       id="mobile-nav"
-      className="border-t border-[var(--border)] bg-[var(--surface)] px-4 pb-6 pt-2 md:hidden"
+      className="animate-drop-in border-t border-[var(--border)] bg-[var(--surface)] px-4 pb-6 pt-2 md:hidden"
     >
       <nav aria-label={dict.nav.menu}>
         <ul className="flex flex-col">
@@ -27,7 +27,7 @@ export function MobileNav({ locale, dict, open, onClose }: MobileNavProps) {
               <Link
                 href={link.href}
                 onClick={onClose}
-                className="block rounded-xl px-3 py-3 text-base font-semibold text-[var(--ink)] hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                className="block rounded-xl px-3 py-3 text-base font-semibold text-[var(--ink)] hover:bg-[var(--primary-soft)] hover:text-[var(--primary-text)]"
               >
                 {link.label}
               </Link>
@@ -38,7 +38,7 @@ export function MobileNav({ locale, dict, open, onClose }: MobileNavProps) {
       <Link
         href={`/${locale}/free-assessment`}
         onClick={onClose}
-        className="mt-3 flex min-h-[48px] items-center justify-center rounded-full bg-[var(--primary)] px-6 py-3 text-base font-semibold text-white"
+        className="btn-shine mt-3 flex min-h-[48px] items-center justify-center rounded-full bg-[var(--primary)] px-6 py-3 text-base font-semibold text-white"
       >
         {dict.nav.book}
       </Link>

@@ -17,8 +17,8 @@ export function WhyOmaimaSection({ dict }: { dict: SiteDictionary }) {
         </Reveal>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {dict.why.items.map((item, index) => (
-            <Reveal key={item.title} as="li" className={index === 0 ? 'sm:col-span-2 lg:col-span-1' : ''}>
-              <div className="flex h-full flex-col gap-2 rounded-[var(--radius-card)] bg-[var(--bg)] p-5">
+            <Reveal key={item.title} as="li" delay={(index % 3) * 80} className={index === 0 ? 'sm:col-span-2 lg:col-span-1' : ''}>
+              <div className="card-lift flex h-full flex-col gap-2 rounded-[var(--radius-card)] bg-[var(--bg)] p-5">
                 <span
                   aria-hidden="true"
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--mint)] text-[var(--success)]"

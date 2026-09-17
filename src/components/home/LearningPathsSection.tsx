@@ -21,14 +21,14 @@ export function LearningPathsSection({ locale, dict }: { locale: Locale; dict: S
           />
         </Reveal>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          {order.map((key) => {
+          {order.map((key, index) => {
             const path = dict.paths.items[key];
             return (
-              <Reveal key={key}>
+              <Reveal key={key} delay={index * 90}>
                 <article
-                  className={`relative flex h-full flex-col gap-3 rounded-[var(--radius-card)] border-2 p-6 ${
+                  className={`card-lift relative flex h-full flex-col gap-3 rounded-[var(--radius-card)] border-2 p-6 ${
                     path.recommended
-                      ? 'border-[var(--primary)] bg-[var(--primary-soft)] shadow-[var(--shadow-soft)]'
+                      ? 'border-[var(--primary)] bg-[var(--primary-soft)] shadow-[var(--shadow-lift)]'
                       : 'border-[var(--border)] bg-[var(--bg)]'
                   }`}
                 >
@@ -50,10 +50,10 @@ export function LearningPathsSection({ locale, dict }: { locale: Locale; dict: S
                   </ul>
                   <Link
                     href={`/${locale}/free-assessment`}
-                    className={`mt-auto inline-flex min-h-[48px] items-center justify-center rounded-full px-6 py-3 text-base font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
+                    className={`btn-press mt-auto inline-flex min-h-[48px] items-center justify-center rounded-full px-6 py-3 text-base font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
                       path.recommended
-                        ? 'bg-[var(--primary)] text-white hover:brightness-110'
-                        : 'border-2 border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)] hover:text-[var(--primary)]'
+                        ? 'btn-shine bg-[var(--primary)] text-white hover:brightness-110'
+                        : 'border-2 border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)] hover:text-[var(--primary-text)]'
                     }`}
                   >
                     {path.cta}

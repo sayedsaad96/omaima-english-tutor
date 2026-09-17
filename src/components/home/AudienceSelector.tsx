@@ -35,27 +35,27 @@ export function AudienceSelector({ dict, selected, onSelect }: AudienceSelectorP
         />
       </Reveal>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="group" aria-label={dict.audience.intro.title}>
-        {order.map((key) => {
+        {order.map((key, index) => {
           const option = dict.audience.options[key];
           const Icon = icons[key];
           const isSelected = selected === key;
           return (
-            <Reveal key={key}>
+            <Reveal key={key} delay={index * 70}>
               <button
                 type="button"
                 onClick={() => onSelect(key)}
                 aria-pressed={isSelected}
                 data-audience-option={key}
-                className={`flex min-h-[140px] w-full flex-col items-start gap-2 rounded-[var(--radius-card)] border-2 p-5 text-start transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
+                className={`card-lift btn-press flex min-h-[140px] w-full flex-col items-start gap-2 rounded-[var(--radius-card)] border-2 p-5 text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
                   isSelected
-                    ? 'border-[var(--primary)] bg-[var(--primary-soft)] shadow-[var(--shadow-soft)]'
+                    ? 'border-[var(--primary)] bg-[var(--primary-soft)] shadow-[var(--shadow-lift)]'
                     : 'border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)]'
                 }`}
               >
                 <span
                   aria-hidden="true"
                   className={`flex h-11 w-11 items-center justify-center rounded-2xl ${
-                    isSelected ? 'bg-[var(--primary)] text-white' : 'bg-[var(--primary-soft)] text-[var(--primary)]'
+                    isSelected ? 'bg-[var(--primary)] text-white' : 'bg-[var(--primary-soft)] text-[var(--primary-text)]'
                   }`}
                 >
                   <Icon size={22} />

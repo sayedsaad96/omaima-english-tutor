@@ -42,7 +42,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary)]">
+      <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary-text)]">
         {dict.nav.lessons}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">
@@ -53,16 +53,16 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
       </p>
 
       <div className="mt-8 flex scroll-mt-24 flex-col gap-5">
-        {order.map((key) => {
+        {order.map((key, index) => {
           const service = dict.services.items[key];
           const meta = serviceMeta[key];
           const Icon = meta.icon;
           return (
-            <Reveal key={key}>
+            <Reveal key={key} delay={(index % 2) * 80}>
               <section
                 id={meta.anchor}
                 aria-labelledby={`${meta.anchor}-title`}
-                className="scroll-mt-24 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8"
+                className="card-lift scroll-mt-24 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8"
               >
                 <h2 id={`${meta.anchor}-title`} className="flex items-center gap-3 text-xl font-extrabold sm:text-2xl">
                   <span
@@ -100,7 +100,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
       <Reveal className="mt-8 text-center">
         <Link
           href={`/${locale}/free-assessment`}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-8 py-3 text-base font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+          className="btn-shine btn-press inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-8 py-3 text-base font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
         >
           {dict.lessons.cta}
         </Link>

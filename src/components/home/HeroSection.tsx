@@ -1,7 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
+
+function animDelay(ms: number): CSSProperties {
+  return { '--anim-delay': `${ms}ms` } as CSSProperties;
+}
 
 interface HeroSectionProps {
   locale: Locale;
@@ -14,52 +19,63 @@ export function HeroSection({ locale, dict }: HeroSectionProps) {
     <section aria-labelledby="hero-heading" className="relative overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 end-0 h-72 w-72 rounded-full bg-[var(--primary-soft)] blur-2xl"
+        className="animate-blob pointer-events-none absolute -top-24 end-0 h-72 w-72 rounded-full bg-[var(--primary-soft)] blur-2xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 start-0 h-56 w-56 rounded-full bg-[var(--accent-soft)] blur-2xl"
+        className="animate-blob pointer-events-none absolute bottom-0 start-0 h-56 w-56 rounded-full bg-[var(--accent-soft)] blur-2xl"
+        style={{ animationDelay: '-6s' }}
+      />
+      <div
+        aria-hidden="true"
+        className="dot-grid pointer-events-none absolute inset-x-0 top-0 mx-auto h-64 max-w-6xl opacity-60 [mask-image:radial-gradient(ellipse_60%_100%_at_50%_0%,black,transparent)]"
       />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 pt-10 sm:px-6 md:grid-cols-2 md:pt-16">
-        <div className="contents md:flex md:flex-col md:gap-5">
-          <p className="order-1 text-sm font-bold uppercase tracking-widest text-[var(--primary)] md:order-none">
-            {hero.eyebrow}
+        <div className="contents md:flex md:flex-col md:items-start md:gap-5">
+          <p className="animate-fade-up order-1 md:order-none" style={animDelay(0)}>
+            <span className="eyebrow-pill">{hero.eyebrow}</span>
           </p>
           <h1
             id="hero-heading"
-            className="order-2 mt-2 text-4xl font-extrabold leading-[1.15] sm:text-5xl md:order-none md:mt-0"
+            className="animate-fade-up order-2 mt-2 text-4xl font-extrabold leading-[1.15] sm:text-5xl md:order-none md:mt-0"
+            style={animDelay(90)}
           >
             {hero.title}
           </h1>
-          <p className="order-3 mt-4 text-lg leading-relaxed text-[var(--muted)] md:order-none md:mt-0">
+          <p
+            className="animate-fade-up order-3 mt-4 text-lg leading-relaxed text-[var(--muted)] md:order-none md:mt-0"
+            style={animDelay(180)}
+          >
             {hero.body}
           </p>
 
-          <div className="order-5 mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:order-none md:mt-0">
+          <div
+            className="animate-fade-up order-5 mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:order-none md:mt-0"
+            style={animDelay(270)}
+          >
             <Link
               href={`/${locale}/free-assessment`}
-              className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+              className="btn-shine btn-press inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
             >
               {hero.primaryCta}
             </Link>
             <Link
               href={`/${locale}/level-quiz`}
-              className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+              className="btn-press inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
             >
               {hero.secondaryCta}
             </Link>
           </div>
-          <p className="order-6 mt-5 text-sm font-semibold text-[var(--muted)] md:order-none md:mt-0">
+          <p
+            className="animate-fade-up order-6 mt-5 text-sm font-semibold text-[var(--muted)] md:order-none md:mt-0"
+            style={animDelay(360)}
+          >
             {hero.trustLine}
           </p>
         </div>
 
-        <div className="order-4 md:order-none">
-          <figure className="relative mx-auto max-w-sm md:max-w-md">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-[var(--primary-soft)] via-[var(--surface)] to-[var(--accent-soft)]"
-            />
+        <div className="animate-fade-up order-4 md:order-none" style={animDelay(200)}>
+          <figure className="portrait-frame relative mx-auto max-w-sm md:max-w-md">
             <Image
               src="/images/omaima-hero.webp"
               alt={hero.portraitAlt}
@@ -76,7 +92,7 @@ export function HeroSection({ locale, dict }: HeroSectionProps) {
                   className={`animate-float-soft rounded-full px-4 py-1.5 text-sm font-bold shadow-[var(--shadow-soft)] ${
                     index === 0
                       ? 'bg-[var(--primary)] text-white'
-                      : 'bg-[var(--surface)] text-[var(--primary)]'
+                      : 'bg-[var(--surface)] text-[var(--primary-text)]'
                   }`}
                   style={{ animationDelay: `${index * 1.2}s` }}
                 >

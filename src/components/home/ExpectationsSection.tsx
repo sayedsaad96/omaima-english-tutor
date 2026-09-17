@@ -19,7 +19,7 @@ export function ExpectationsSection({ dict }: { dict: SiteDictionary }) {
         <ul className="mt-8 grid gap-4 md:grid-cols-2">
           {testimonials.map((testimonial) => (
             <Reveal key={testimonial.id} as="li">
-              <figure className="flex h-full flex-col gap-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6">
+              <figure className="card-lift flex h-full flex-col gap-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6">
                 <blockquote className="text-base leading-relaxed">“{testimonial.quote}”</blockquote>
                 <figcaption className="mt-auto text-sm font-bold">
                   {testimonial.name}
@@ -33,9 +33,9 @@ export function ExpectationsSection({ dict }: { dict: SiteDictionary }) {
         </ul>
       ) : (
         <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-          {dict.expectations.items.map((item) => (
-            <Reveal key={item.title} as="li">
-              <div className="flex h-full items-start gap-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5">
+          {dict.expectations.items.map((item, index) => (
+            <Reveal key={item.title} as="li" delay={(index % 2) * 80}>
+              <div className="card-lift flex h-full items-start gap-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5">
                 <span
                   aria-hidden="true"
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]"

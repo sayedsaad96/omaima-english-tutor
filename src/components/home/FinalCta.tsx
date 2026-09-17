@@ -7,14 +7,15 @@ export function FinalCta({ locale, dict }: { locale: Locale; dict: SiteDictionar
   return (
     <section aria-labelledby="final-cta-heading" className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[var(--primary)] to-[#4a3ec9] p-8 text-center text-white sm:p-14">
+        <div className="animate-pan relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[var(--primary)] via-[#5b4bd6] to-[#4a3ec9] p-8 text-center text-white shadow-[var(--shadow-lift)] sm:p-14">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -start-16 -top-16 h-56 w-56 rounded-full bg-white opacity-10 blur-2xl"
+            className="animate-blob pointer-events-none absolute -start-16 -top-16 h-56 w-56 rounded-full bg-white opacity-10 blur-2xl"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -end-10 h-56 w-56 rounded-full bg-[var(--accent)] opacity-30 blur-2xl"
+            className="animate-blob pointer-events-none absolute -bottom-20 -end-10 h-56 w-56 rounded-full bg-[var(--accent)] opacity-30 blur-2xl"
+            style={{ animationDelay: '-6s' }}
           />
           <h2 id="final-cta-heading" className="relative mx-auto max-w-2xl text-3xl font-extrabold leading-tight sm:text-4xl">
             {dict.finalCta.title}
@@ -25,7 +26,7 @@ export function FinalCta({ locale, dict }: { locale: Locale; dict: SiteDictionar
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href={`/${locale}/free-assessment`}
-              className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-white px-8 py-4 text-lg font-bold text-[var(--primary)] transition hover:bg-[var(--accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="btn-shine btn-press inline-flex min-h-[56px] items-center justify-center rounded-full bg-white px-8 py-4 text-lg font-bold text-[var(--primary)] transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {dict.finalCta.primaryCta}
             </Link>
