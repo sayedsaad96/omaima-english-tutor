@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fffaf6;
+  --surface: #ffffff;
+  --ink: #182033;
+  --muted: #667085;
+  --primary: #6c5ce7;
+  --primary-soft: #f1edff;
+  --accent: #ff8a5b;
+  --accent-soft: #fff0e9;
+  --mint: #dff7ee;
+  --border: #e8e3ef;
+  --success: #2d8f68;
+  --success-dark: #175c40;
+  --whatsapp: #0b6e41;
+  --radius-card: 1.5rem;
+  --shadow-soft: 0 20px 55px rgba(38, 27, 77, 0.09);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-mint: var(--mint);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-success-dark: var(--success-dark);
+  --color-whatsapp: var(--whatsapp);
+  --font-sans: var(--font-sans);
+  --font-arabic: var(--font-arabic);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float-soft {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-soft {
+    animation: none;
+  }
+}
