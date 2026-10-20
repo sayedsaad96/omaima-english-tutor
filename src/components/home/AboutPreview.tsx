@@ -22,7 +22,7 @@ export function AboutPreview({ locale, dict }: { locale: Locale; dict: SiteDicti
           </div>
         </Reveal>
         <Reveal>
-          <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary-text)]">
+          <p className="text-sm font-bold tracking-wide text-[var(--primary-text)]">
             {dict.aboutPreview.eyebrow}
           </p>
           <h2 id="about-preview-heading" className="mt-2 text-3xl font-extrabold sm:text-4xl">

@@ -3,52 +3,87 @@
 /* ============ Design tokens: light (default) ============ */
 :root {
   color-scheme: light;
-  --bg: #fffaf6;
+  --bg: #fbf7f1;
   --surface: #ffffff;
-  --ink: #182033;
-  --muted: #667085;
-  --primary: #6c5ce7;
-  --primary-text: #6c5ce7;
-  --primary-soft: #f1edff;
+  --ink: #1c2b2e;
+  --muted: #62706f;
+  --primary: #147483;
+  --primary-text: #0e6272;
+  --primary-soft: #e1eff1;
+  --primary-mid: #0f5a68;
+  --primary-deep: #0a4854;
   --accent: #ff8a5b;
   --accent-soft: #fff0e9;
-  --mint: #dff7ee;
-  --border: #e8e3ef;
+  --mint: #e0f2ec;
+  --border: #e5e5dc;
   --success: #2d8f68;
   --success-dark: #175c40;
   --whatsapp: #0b6e41;
-  --spotlight: #182033;
-  --on-spotlight: #ffffff;
+  --spotlight: #14323a;
+  --on-spotlight: #f4f8f8;
   --danger-bg: #fef2f2;
   --danger-text: #b91c1c;
   --radius-card: 1.5rem;
-  --shadow-soft: 0 20px 55px rgba(38, 27, 77, 0.09);
-  --shadow-lift: 0 28px 70px rgba(38, 27, 77, 0.16);
+  --shadow-soft: 0 20px 55px rgba(16, 58, 66, 0.1);
+  --shadow-lift: 0 28px 70px rgba(16, 58, 66, 0.18);
 }
 
 /* ============ Design tokens: dark ============ */
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0e1120;
-  --surface: #171b30;
-  --ink: #f2f4fa;
-  --muted: #a3abc2;
-  --primary: #6c5ce7;
-  --primary-text: #a394ff;
-  --primary-soft: #26224d;
+  --bg: #0f1719;
+  --surface: #172427;
+  --ink: #f0f5f4;
+  --muted: #9db1b1;
+  --primary: #1a7d8d;
+  --primary-text: #57b8c8;
+  --primary-soft: #0f343b;
+  --primary-mid: #0f5a68;
+  --primary-deep: #0a4854;
   --accent: #ff8a5b;
   --accent-soft: #3a2418;
-  --mint: #123b2e;
-  --border: #2b3252;
+  --mint: #103b35;
+  --border: #2a3a3d;
   --success: #2d8f68;
   --success-dark: #8fe3b8;
   --whatsapp: #0b6e41;
-  --spotlight: #1c2342;
-  --on-spotlight: #f2f4fa;
+  --spotlight: #142a2f;
+  --on-spotlight: #f0f5f4;
   --danger-bg: #3b1414;
   --danger-text: #fca5a5;
   --shadow-soft: 0 20px 55px rgba(0, 0, 0, 0.45);
   --shadow-lift: 0 28px 70px rgba(0, 0, 0, 0.55);
+}
+
+/* First-paint fallback: follow the system palette even before any JS runs
+   (including when the init script is deferred by the Next.js bootstrap).
+   A stored explicit choice always wins, hence NOT matching [data-theme=light]. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0f1719;
+    --surface: #172427;
+    --ink: #f0f5f4;
+    --muted: #9db1b1;
+    --primary: #1a7d8d;
+    --primary-text: #57b8c8;
+    --primary-soft: #0f343b;
+    --primary-mid: #0f5a68;
+    --primary-deep: #0a4854;
+    --accent: #ff8a5b;
+    --accent-soft: #3a2418;
+    --mint: #103b35;
+    --border: #2a3a3d;
+    --success: #2d8f68;
+    --success-dark: #8fe3b8;
+    --whatsapp: #0b6e41;
+    --spotlight: #142a2f;
+    --on-spotlight: #f0f5f4;
+    --danger-bg: #3b1414;
+    --danger-text: #fca5a5;
+    --shadow-soft: 0 20px 55px rgba(0, 0, 0, 0.45);
+    --shadow-lift: 0 28px 70px rgba(0, 0, 0, 0.55);
+  }
 }
 
 @theme inline {
@@ -74,6 +109,17 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Balanced headlines + display-type presence across the app. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+h1 {
+  letter-spacing: -0.02em;
 }
 
 body {
@@ -106,22 +152,24 @@ body {
   background: var(--primary);
 }
 
-/* ============ Scroll reveal (no animation library) ============ */
-.reveal {
+/* ============ Scroll reveal (no animation library) ============
+   Hiding is scoped to [data-reveal-active], set by an inline pre-paint script.
+   Base state is visible, so content is never lost without JavaScript. */
+[data-reveal-active] .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal-scale {
+[data-reveal-active] .reveal-scale {
   transform: translateY(10px) scale(0.97);
 }
 
-.reveal-fade {
+[data-reveal-active] .reveal-fade {
   transform: none;
 }
 
-.reveal.is-visible {
+[data-reveal-active] .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
@@ -237,12 +285,11 @@ body {
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--primary-soft) 65%, var(--surface));
   padding: 0.3rem 0.9rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   /* Darker than --primary-text: the blended pill background needs extra contrast. */
-  color: #5746c9;
+  color: #0e5462;
 }
 
 [data-theme="dark"] .eyebrow-pill {
@@ -354,7 +401,8 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal {
+  .reveal,
+  [data-reveal-active] .reveal {
     opacity: 1;
     transform: none;
     transition: none;

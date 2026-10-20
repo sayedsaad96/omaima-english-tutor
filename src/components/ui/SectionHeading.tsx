@@ -13,7 +13,7 @@ export function SectionHeading({ eyebrow, title, body, align = 'start', id }: Se
       <p>
         <span className="eyebrow-pill">{eyebrow}</span>
       </p>
-      <h2 id={id} className="max-w-2xl text-3xl font-extrabold leading-tight sm:text-4xl">
+      <h2 id={id} className="max-w-2xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
         {title}
       </h2>
       {body ? (

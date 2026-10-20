@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Baby, GraduationCap, Briefcase, HeartHandshake } from 'lucide-react';
+import { Baby, GraduationCap, Briefcase, Handshake as HeartHandshake } from '@phosphor-icons/react/dist/ssr';
 import type { AudienceKey } from '@/content/types';
 import type { SiteDictionary } from '@/content/types';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -58,7 +58,7 @@ export function AudienceSelector({ dict, selected, onSelect }: AudienceSelectorP
                     isSelected ? 'bg-[var(--primary)] text-white' : 'bg-[var(--primary-soft)] text-[var(--primary-text)]'
                   }`}
                 >
-                  <Icon size={22} />
+                  <Icon size={22} weight="duotone" />
                 </span>
                 <span className="text-base font-bold">{option.title}</span>
                 <span className="text-sm leading-relaxed text-[var(--muted)]">{option.body}</span>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { X as XIcon, ChatCircle } from '@phosphor-icons/react/dist/ssr';
 import type { SiteDictionary } from '@/content/types';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 
@@ -56,7 +56,7 @@ export function WhatsAppLauncher({ dict, businessNumber }: WhatsAppLauncherProps
             <span className="relative inline-flex h-4 w-4 rounded-full border-2 border-[var(--bg)] bg-[var(--accent)]" />
           </span>
         )}
-        {open ? <X size={24} aria-hidden="true" /> : <MessageCircle size={26} aria-hidden="true" />}
+        {open ? <XIcon size={24} aria-hidden="true" /> : <ChatCircle size={26} aria-hidden="true" />}
       </button>
     </div>
   );

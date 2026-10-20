@@ -1,7 +1,20 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const routes = ['/en', '/ar', '/en/level-quiz', '/en/free-assessment'] as const;
+const routes = [
+  '/en',
+  '/ar',
+  '/en/level-quiz',
+  '/en/free-assessment',
+  '/ar/level-quiz',
+  '/ar/free-assessment',
+  '/en/about',
+  '/ar/about',
+  '/en/lessons',
+  '/ar/lessons',
+  '/en/privacy',
+  '/ar/privacy',
+] as const;
 
 for (const route of routes) {
   test(`axe finds no serious violations on ${route}`, async ({ page }) => {
@@ -25,6 +38,20 @@ test('skip link becomes visible on keyboard focus', async ({ page }) => {
   const skipLink = page.getByRole('link', { name: /skip to content/i });
   await expect(skipLink).toBeFocused();
   await expect(skipLink).toBeVisible();
+});
+
+test('axe finds no serious violations in dark mode on /ar/free-assessment', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('omaima-theme', 'dark');
+  });
+  await page.goto('/ar/free-assessment');
+  await expect(page.getByRole('main').getByRole('heading').first()).toBeVisible();
+  await page.waitForLoadState('networkidle');
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+  const blocking = results.violations.filter(
+    (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+  );
+  expect(blocking, JSON.stringify(blocking, null, 2)).toEqual([]);
 });
 
 test('mobile menu opens and closes from the keyboard', async ({ page }) => {
@@ -79,20 +106,27 @@ test('quiz is fully keyboard-operable', async ({ page }) => {
 
 test('assessment steps are keyboard-operable with visible progress', async ({ page }) => {
   await page.goto('/en/free-assessment');
-  const radios = page.locator('input[type="radio"]');
-  await radios.first().focus();
+  // Screen 1 bundles two questions; both must be answered before Next enables.
+  const groups = page.locator('main').getByRole('group');
+  await groups.first().getByRole('radio').first().focus();
   await page.keyboard.press('Space');
 
   const next = page.getByRole('button', { name: /^next$/i });
+  const nextDisabled = await next.evaluate((node: HTMLButtonElement) => node.disabled);
+  if (nextDisabled) {
+    await groups.nth(1).getByRole('radio').first().focus();
+    await page.keyboard.press('Space');
+  }
   await expect(next).toBeEnabled();
   await next.focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByText(/step.*2 \/ 7/i)).toBeVisible();
+  await expect(page.getByText(/step.*2 \/ 4/i)).toBeVisible();
 });
 
 test('Arabic layout is genuinely RTL', async ({ page }) => {
   await page.goto('/ar');
-  const root = page.getByTestId('locale-root');
+  // The document root itself declares the language and direction before any JS runs.
+  const root = page.locator('html');
   await expect(root).toHaveAttribute('dir', 'rtl');
   await expect(root).toHaveAttribute('lang', 'ar');
 
@@ -106,6 +140,27 @@ test('Arabic layout is genuinely RTL', async ({ page }) => {
   const firstCard = page.locator('[data-service]').first();
   await firstCard.scrollIntoViewIfNeeded();
   await expect(firstCard).toBeVisible();
+});
+
+test.describe('no javascript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('home content stays visible without JavaScript', async ({ page }) => {
+    await page.goto('/en');
+    // Scroll-reveal hiding must never be active in the raw HTML state.
+    await expect(page.locator('html')).not.toHaveAttribute('data-reveal-active');
+    await expect(
+      page.getByRole('heading', { level: 1, name: /Learn English with confidence/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /English lessons that fit your goal/i }),
+    ).toBeVisible();
+
+    await page.goto('/ar');
+    await expect(
+      page.getByRole('heading', { level: 1, name: /اتعلّم الإنجليزي بثقة/ }),
+    ).toBeVisible();
+  });
 });
 
 test.describe('reduced motion', () => {

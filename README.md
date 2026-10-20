@@ -16,10 +16,10 @@ Plan: `docs/superpowers/plan/2026-09-17-omaima-english-tutor-website-implementat
 - `text-[var(--primary-text)]` is the readable primary for body text/links in
   both modes; `bg-[var(--primary)]` stays fixed so white button text keeps its
   contrast. Fixed-white surfaces (e.g. spotlight CTAs) also keep `--primary`.
-- Theme preference persists in `localStorage` (`omaima-theme`); an inline
-  script in `src/app/layout.tsx` applies it before paint (no flash), defaulting
-  to the OS color scheme. `ThemeToggle` uses `useSyncExternalStore` so SSR and
-  hydration always match.
+- Theme preference persists in `localStorage` (`omaima-theme`); an inline script
+  included by each document root (`src/app/document-init.ts`) applies it before
+  paint (no flash), defaulting to the OS color scheme. `ThemeToggle` uses
+  `useSyncExternalStore` so SSR and hydration always match.
 - Animations are CSS-only (`globals.css` keyframes + `Reveal` with
   `delay`/`variant` props) and fully disabled under
   `prefers-reduced-motion: reduce`.
@@ -66,6 +66,40 @@ E2E WhatsApp assertions need a number at build time:
 NEXT_PUBLIC_WHATSAPP_NUMBER=201111111111 npm run build
 NEXT_PUBLIC_WHATSAPP_NUMBER=201111111111 npm run test:e2e
 ```
+
+## Verification rig
+
+The official check is `npm run verify` (lint → typecheck → unit → build).
+CI (`.github/workflows/ci.yml`, Node 22) runs the same steps plus `test:e2e`.
+
+Conditions that matter (Go "B07"):
+
+- **Build-time env**: `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_WHATSAPP_NUMBER`
+  must be set before `npm run build` (`NEXT_PUBLIC_*` is inlined at build time).
+  Locally both were set to placeholder values for the recorded green runs; CI
+  sets the same placeholders in the workflow env.
+- **Network access for fonts**: `next/font/google` downloads Plus Jakarta Sans
+  and Tajawal at build time. The build needs internet access (or a warm
+  `.next/cache`); offline builds fail with a font-fetch error.
+- **Bundler**: Turbopack is the default and the official path
+  (`✓ Compiled successfully`, ~1s, full static generation green). The Webpack
+  override (`next build --webpack`) is *known-broken* in this environment — it
+  crashes with `TypeError: Cannot read properties of undefined (reading
+  'length')` inside Next's bundled `WasmHash` on Node 24.15.0. Do not switch
+  engines based on this; record the failure and stay on the default.
+- **Vitest pool**: default `forks` and `--pool=threads` both pass 47/47 with
+  identical timing (~5.5s). No recurring flake justified a change — stay on
+  `forks` for stronger isolation.
+- **e2e server trap**: Playwright's `webServer` reuses a server already bound to
+  port 3000. A production server holds its build in memory at startup — after
+  `npm run build`, kill any stale `next start` (e.g.
+  `Get-NetTCPConnection -LocalPort 3000 | Stop-Process`) or e2e silently tests
+  the *previous* build. `next start` also serves only the build it loaded: never
+  edit tests/state expectations before confirming the served build is current.
+- **Vitest config**: `vitest.config.mts` is ESM-native and must keep avoiding
+  `__dirname` — use `import.meta.dirname` — so the native config loader accepts
+  it (closes the `configLoader: 'native'` warning without touching package
+  module type).
 
 ## Deployment (Vercel)
 

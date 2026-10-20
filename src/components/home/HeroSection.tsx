@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
+import { Button } from '@/components/ui/Button';
 
 function animDelay(ms: number): CSSProperties {
   return { '--anim-delay': `${ms}ms` } as CSSProperties;
@@ -53,18 +53,18 @@ export function HeroSection({ locale, dict }: HeroSectionProps) {
             className="animate-fade-up order-5 mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:order-none md:mt-0"
             style={animDelay(270)}
           >
-            <Link
+            <Button
+              variant="primary"
+              shine
+              press
+              softShadow
               href={`/${locale}/free-assessment`}
-              className="btn-shine btn-press inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
             >
               {hero.primaryCta}
-            </Link>
-            <Link
-              href={`/${locale}/level-quiz`}
-              className="btn-press inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
-            >
+            </Button>
+            <Button variant="secondaryInk" href={`/${locale}/level-quiz`}>
               {hero.secondaryCta}
-            </Link>
+            </Button>
           </div>
           <p
             className="animate-fade-up order-6 mt-5 text-sm font-semibold text-[var(--muted)] md:order-none md:mt-0"
@@ -74,7 +74,7 @@ export function HeroSection({ locale, dict }: HeroSectionProps) {
           </p>
         </div>
 
-        <div className="animate-fade-up order-4 md:order-none" style={animDelay(200)}>
+        <div className="animate-fade-up order-7 mt-10 md:order-none md:mt-0" style={animDelay(200)}>
           <figure className="portrait-frame relative mx-auto max-w-sm md:max-w-md">
             <Image
               src="/images/omaima-hero.webp"

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
 import { buildNavLinks } from '@/lib/nav';
@@ -13,6 +14,7 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ locale, dict, open, onClose }: MobileNavProps) {
+  const pathname = usePathname();
   if (!open) return null;
   const links = buildNavLinks(locale, dict.nav);
   return (
@@ -22,17 +24,24 @@ export function MobileNav({ locale, dict, open, onClose }: MobileNavProps) {
     >
       <nav aria-label={dict.nav.menu}>
         <ul className="flex flex-col">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                onClick={onClose}
-                className="block rounded-xl px-3 py-3 text-base font-semibold text-[var(--ink)] hover:bg-[var(--primary-soft)] hover:text-[var(--primary-text)]"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {links.map((link) => {
+            // Exact equality so the home link never lights up for every page.
+            const isCurrent = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={onClose}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  className={`block rounded-xl px-3 py-3 text-base font-semibold transition hover:bg-[var(--primary-soft)] hover:text-[var(--primary-text)] ${
+                    isCurrent ? 'bg-[var(--primary-soft)] text-[var(--ink)]' : 'text-[var(--ink)]'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
       <Link

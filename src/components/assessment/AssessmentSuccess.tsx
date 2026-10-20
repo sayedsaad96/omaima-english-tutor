@@ -1,15 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { Check, Copy, MessageCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Check, Copy, ChatCircle } from '@phosphor-icons/react/dist/ssr';
 import type { SiteDictionary } from '@/content/types';
 import type { AssessmentData } from '@/lib/assessment';
+import type { BookingContext } from '@/lib/context';
 import { buildAssessmentMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 
 interface AssessmentSuccessProps {
   dict: SiteDictionary;
   data: AssessmentData;
   businessNumber: string;
+  /** Visit context (service/path/quiz band) — travels as guidance in the message, never in the URL. */
+  context?: BookingContext;
   onRestart: () => void;
 }
 
@@ -20,10 +23,17 @@ function resolveOptionLabel(
   return options.find((option) => option.value === value)?.label ?? value;
 }
 
-export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: AssessmentSuccessProps) {
-  const [copied, setCopied] = useState(false);
+export function AssessmentSuccess({ dict, data, businessNumber, context, onRestart }: AssessmentSuccessProps) {
+  type CopyState = 'idle' | 'busy' | 'success' | 'failure';
+  const [copyState, setCopyState] = useState<CopyState>('idle');
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+
+  // Completion replaces the form, so keyboard/AT focus lands on the result heading.
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
   const copy = dict.assessment;
-  const message = buildAssessmentMessage(data, dict.locale);
+  const message = buildAssessmentMessage(data, dict.locale, dict, context);
   const hasNumber = businessNumber.replace(/\D/g, '') !== '';
   const whatsappUrl = hasNumber ? buildWhatsAppUrl(businessNumber, message) : null;
 
@@ -38,14 +48,18 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
   ];
 
   async function copyMessage() {
+    if (copyState === 'busy') return;
+    setCopyState('busy');
     try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(message);
+      if (!navigator.clipboard?.writeText) {
+        setCopyState('failure');
+        return;
       }
+      await navigator.clipboard.writeText(message);
+      setCopyState('success');
     } catch {
-      // Clipboard API unavailable — the readonly message box below stays selectable.
+      setCopyState('failure');
     }
-    setCopied(true);
   }
 
   return (
@@ -55,10 +69,12 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
           aria-hidden="true"
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--success)] text-white"
         >
-          <Check size={22} strokeWidth={3} />
+          <Check size={22} weight="bold" />
         </span>
         <div>
-          <h2 className="text-xl font-extrabold">{copy.success.title}</h2>
+          <h2 ref={headingRef} tabIndex={-1} className="text-xl font-extrabold outline-none">
+            {copy.success.title}
+          </h2>
           <p className="text-sm font-medium sm:text-base">{copy.success.body}</p>
         </div>
       </div>
@@ -68,7 +84,7 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
         <dl className="mt-3 grid gap-2 sm:grid-cols-2">
           {summary.map((row) => (
             <div key={row.label} className="rounded-xl bg-[var(--bg)] px-3 py-2">
-              <dt className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
+              <dt className="text-xs font-semibold tracking-wide text-[var(--muted)]">
                 {row.label}
               </dt>
               <dd className="text-sm font-bold">{row.value}</dd>
@@ -85,7 +101,7 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
             rel="noopener noreferrer"
             className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-[var(--whatsapp)] px-7 py-3 text-base font-bold text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--whatsapp)]"
           >
-            <MessageCircle size={20} aria-hidden="true" />
+            <ChatCircle size={20} aria-hidden="true" />
             {copy.success.continueWhatsapp}
           </a>
         ) : (
@@ -108,10 +124,11 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
           <button
             type="button"
             onClick={copyMessage}
+            aria-busy={copyState === 'busy' || undefined}
             className="inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-full border-2 border-[var(--border)] bg-[var(--surface)] px-7 py-3 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             <Copy size={18} aria-hidden="true" />
-            {copied ? copy.success.copied : copy.success.copyMessage}
+            {copyState === 'success' ? copy.success.copied : copy.success.copyMessage}
           </button>
           <button
             type="button"
@@ -121,9 +138,14 @@ export function AssessmentSuccess({ dict, data, businessNumber, onRestart }: Ass
             {copy.success.bookAgain}
           </button>
         </div>
-        {copied && (
+        {copyState === 'success' && (
           <p role="status" className="text-sm font-semibold text-[var(--success-dark)]">
             {copy.success.copied}
+          </p>
+        )}
+        {copyState === 'failure' && (
+          <p role="alert" className="text-sm font-semibold text-[var(--danger-text)]">
+            {copy.success.copyFailed}
           </p>
         )}
         <p className="text-sm text-[var(--muted)]">{copy.success.fallbackNote}</p>

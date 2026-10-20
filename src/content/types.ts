@@ -78,14 +78,14 @@ export interface SiteDictionary {
     role: string;
   };
   nav: NavCopy;
+  theme: {
+    toLight: string;
+    toDark: string;
+  };
   hero: HeroCopy;
   audience: {
     intro: SectionIntro;
     options: Record<AudienceKey, { title: string; body: string }>;
-  };
-  journey: {
-    intro: SectionIntro;
-    steps: { title: string; body: string }[];
   };
   services: {
     intro: SectionIntro;
@@ -178,7 +178,15 @@ export interface SiteDictionary {
     errors: {
       required: string;
       name: string;
+      nameTooLong: string;
       whatsapp: string;
+    };
+    contextBanner: {
+      title: string;
+      service: string;
+      path: string;
+      quizBand: string;
+      hint: string;
     };
     success: {
       title: string;
@@ -187,6 +195,7 @@ export interface SiteDictionary {
       continueWhatsapp: string;
       copyMessage: string;
       copied: string;
+      copyFailed: string;
       fallbackNote: string;
       noNumberNote: string;
       bookAgain: string;
@@ -211,6 +220,7 @@ export interface SiteDictionary {
     intro: string;
     note: string;
     cta: string;
+    serviceCta: string;
   };
   privacy: {
     title: string;

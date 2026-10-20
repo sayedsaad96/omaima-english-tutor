@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+
 interface Choice {
   id: string;
   label: string;
@@ -10,12 +12,32 @@ interface QuizQuestionProps {
   selected: string | null;
   onSelect: (choiceId: string) => void;
   hint: string;
+  /** Receives programmatic focus when the quiz changes question. */
+  headingRef?: RefObject<HTMLLegendElement | null>;
 }
 
-export function QuizQuestion({ prompt, choices, name, selected, onSelect, hint }: QuizQuestionProps) {
+export function QuizQuestion({
+  prompt,
+  choices,
+  name,
+  selected,
+  onSelect,
+  hint,
+  headingRef,
+}: QuizQuestionProps) {
   return (
     <fieldset className="flex flex-col gap-4">
-      <legend className="text-xl font-bold leading-snug sm:text-2xl">{prompt}</legend>
+      <legend
+        ref={headingRef}
+        tabIndex={headingRef ? -1 : undefined}
+        className="text-xl font-bold leading-snug outline-none sm:text-2xl"
+      >
+        {/* The question text is English in both locales — declared explicitly so
+            the bidi algorithm and assistive tech treat it as English content. */}
+        <span lang="en" dir="ltr" className="inline-block">
+          {prompt}
+        </span>
+      </legend>
       <p className="text-sm font-medium text-[var(--muted)]">{hint}</p>
       <div className="flex flex-col gap-3">
         {choices.map((choice) => {
@@ -35,9 +57,11 @@ export function QuizQuestion({ prompt, choices, name, selected, onSelect, hint }
                 value={choice.id}
                 checked={checked}
                 onChange={() => onSelect(choice.id)}
-                className="h-5 w-5 shrink-0 accent-[#6c5ce7]"
+                className="h-5 w-5 shrink-0 accent-[var(--primary)]"
               />
-              <span dir="auto">{choice.label}</span>
+              <span lang="en" dir="ltr">
+                {choice.label}
+              </span>
             </label>
           );
         })}

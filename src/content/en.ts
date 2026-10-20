@@ -17,6 +17,10 @@ export const en: SiteDictionary = {
     menu: 'Menu',
     close: 'Close',
   },
+  theme: {
+    toLight: 'Switch to light mode',
+    toDark: 'Switch to dark mode',
+  },
   hero: {
     eyebrow: 'Online English lessons for kids, teens & adults',
     title: 'Learn English with confidence.',
@@ -39,18 +43,6 @@ export const en: SiteDictionary = {
       adults: { title: 'Adults', body: 'Conversation, pronunciation & everyday English' },
       child: { title: 'For My Child', body: 'Help me find the right learning plan' },
     },
-  },
-  journey: {
-    intro: {
-      eyebrow: 'How it works',
-      title: 'Your English journey, made personal.',
-      body: 'A simple path from first hello to real progress.',
-    },
-    steps: [
-      { title: 'Understand your level', body: 'A quick quiz plus a free assessment call.' },
-      { title: 'Build your plan', body: 'A learning direction shaped around your goal.' },
-      { title: 'Make real progress', body: 'Practice, feedback and steady improvement.' },
-    ],
   },
   services: {
     intro: {
@@ -232,7 +224,7 @@ export const en: SiteDictionary = {
   },
   assessment: {
     title: 'Book Your Free Assessment',
-    intro: 'Answer 7 quick questions. Your answers prepare a WhatsApp message — nothing is stored in a learner database.',
+    intro: 'Answer 7 quick questions across 4 short screens. Your answers prepare a WhatsApp message — nothing is stored in a learner database.',
     stepOf: 'Step',
     back: 'Back',
     next: 'Next',
@@ -289,7 +281,16 @@ export const en: SiteDictionary = {
     errors: {
       required: 'Please choose an option to continue.',
       name: 'Please enter your name (at least 2 characters).',
-      whatsapp: 'Please enter a valid WhatsApp number (digits, spaces, + or -).',
+      nameTooLong: 'Please use a shorter name (up to 80 characters).',
+      whatsapp:
+        'Please enter a valid WhatsApp number (8–15 digits including country code; spaces, + and - are allowed).',
+    },
+    contextBanner: {
+      title: 'From your visit',
+      service: 'Coming from service:',
+      path: 'Learning path:',
+      quizBand: 'Quiz result (indicative):',
+      hint: 'These are suggestions only — every answer below stays yours to change.',
     },
     success: {
       title: 'Your assessment request is ready.',
@@ -298,6 +299,8 @@ export const en: SiteDictionary = {
       continueWhatsapp: 'Continue on WhatsApp',
       copyMessage: 'Copy message',
       copied: 'Copied!',
+      copyFailed:
+        'Copying failed. Please select the message above and copy it manually.',
       fallbackNote: 'If WhatsApp doesn’t open, copy the message above and send it manually.',
       noNumberNote: 'WhatsApp number is being set up — please use the copy button and send your message manually for now.',
       bookAgain: 'Start over',
@@ -347,6 +350,7 @@ export const en: SiteDictionary = {
     intro: 'Four personalized ways to learn — every plan starts with a free assessment.',
     note: 'Exam preparation is planned around your specific goal. Specific international exams are only advertised once confirmed as offered services.',
     cta: 'Build My Learning Plan',
+    serviceCta: 'Book assessment for this service',
   },
   privacy: {
     title: 'Privacy Policy',
@@ -369,7 +373,10 @@ export const en: SiteDictionary = {
       },
       {
         title: 'Quiz answers',
-        body: ['Level-quiz answers are scored locally in your browser and are not sent to any server.'],
+        body: [
+          'Level-quiz answers are scored locally in your browser and are not sent to any server.',
+          'If you continue to booking from a quiz result, the result travels between the two pages as part of the page address (a URL fragment). That means it stays readable in your browser and browsing history, but it is never sent to any server or analytics tool. Your score and individual answers do not travel — and the result is shown as an editable suggestion, not a placement.',
+        ],
       },
       {
         title: 'Contact',

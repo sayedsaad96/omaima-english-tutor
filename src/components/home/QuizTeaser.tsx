@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { Sparkles, Check } from 'lucide-react';
+import { Sparkle as Sparkles, Check } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
+import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 
 export function QuizTeaser({ locale, dict }: { locale: Locale; dict: SiteDictionary }) {
@@ -20,7 +20,7 @@ export function QuizTeaser({ locale, dict }: { locale: Locale; dict: SiteDiction
           />
           <div className="relative flex flex-col items-start gap-5">
             <span className="animate-fade-up inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-bold">
-              <Sparkles size={16} aria-hidden="true" />
+              <Sparkles size={16} weight="duotone" aria-hidden="true" />
               {dict.quizTeaser.intro.eyebrow}
             </span>
             <h2 id="quiz-teaser-heading" className="max-w-xl text-3xl font-extrabold leading-tight sm:text-4xl">
@@ -40,12 +40,15 @@ export function QuizTeaser({ locale, dict }: { locale: Locale; dict: SiteDiction
                 </li>
               ))}
             </ul>
-            <Link
+            <Button
+              variant="inverse"
+              shine
+              press
+              className="mt-2"
               href={`/${locale}/level-quiz`}
-              className="btn-shine btn-press mt-2 inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-7 py-3 text-base font-bold text-[var(--primary)] transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {dict.quizTeaser.cta}
-            </Link>
+            </Button>
             <p className="text-sm opacity-60">{dict.quizTeaser.secondary}</p>
           </div>
         </div>

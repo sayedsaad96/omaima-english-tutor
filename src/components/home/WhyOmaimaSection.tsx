@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react';
+import { Check } from '@phosphor-icons/react/dist/ssr';
 import type { SiteDictionary } from '@/content/types';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/ui/Reveal';
@@ -23,7 +23,7 @@ export function WhyOmaimaSection({ dict }: { dict: SiteDictionary }) {
                   aria-hidden="true"
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--mint)] text-[var(--success)]"
                 >
-                  <Check size={20} strokeWidth={3} />
+                  <Check size={20} weight="bold" />
                 </span>
                 <h3 className="text-base font-bold">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-[var(--muted)]">{item.body}</p>

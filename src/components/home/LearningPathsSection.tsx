@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BadgeCheck } from 'lucide-react';
+import { SealCheck as BadgeCheck } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/locales';
 import type { PathKey, SiteDictionary } from '@/content/types';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -49,7 +49,7 @@ export function LearningPathsSection({ locale, dict }: { locale: Locale; dict: S
                     ))}
                   </ul>
                   <Link
-                    href={`/${locale}/free-assessment`}
+                    href={`/${locale}/free-assessment?path=${key}`}
                     className={`btn-press mt-auto inline-flex min-h-[48px] items-center justify-center rounded-full px-6 py-3 text-base font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
                       path.recommended
                         ? 'btn-shine bg-[var(--primary)] text-white hover:brightness-110'

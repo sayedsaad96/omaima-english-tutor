@@ -15,7 +15,7 @@ test('quiz completes and offers assessment, then retakes cleanly', async ({ page
   await expect(page.getByText(/only a quick estimate/i)).toBeVisible();
   await expect(
     page.getByRole('link', { name: /book my free assessment/i }),
-  ).toHaveAttribute('href', '/en/free-assessment');
+  ).toHaveAttribute('href', '/en/free-assessment#quizBand=intermediatePlus');
 
   await page.getByRole('button', { name: /retake/i }).click();
   await expect(page.getByText(QUIZ_QUESTIONS[0].prompt)).toBeVisible();

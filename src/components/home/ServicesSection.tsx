@@ -1,48 +1,10 @@
 import Link from 'next/link';
-import { User, MessagesSquare, Backpack, Target, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/locales';
-import type { AudienceKey, ServiceKey, SiteDictionary } from '@/content/types';
+import type { AudienceKey, SiteDictionary } from '@/content/types';
+import { AUDIENCE_RELEVANCE, SERVICE_ORDER, serviceMeta } from '@/lib/services';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/ui/Reveal';
-
-const serviceMeta: Record<
-  ServiceKey,
-  { icon: typeof User; accent: string; iconWrap: string; anchor: string }
-> = {
-  private: {
-    icon: User,
-    accent: 'bg-[var(--primary-soft)]',
-    iconWrap: 'bg-[var(--primary)] text-white',
-    anchor: 'private-lessons',
-  },
-  conversation: {
-    icon: MessagesSquare,
-    accent: 'bg-[var(--accent-soft)]',
-    iconWrap: 'bg-[var(--accent)] text-white',
-    anchor: 'conversation',
-  },
-  school: {
-    icon: Backpack,
-    accent: 'bg-[var(--mint)]',
-    iconWrap: 'bg-[var(--success)] text-white',
-    anchor: 'school-support',
-  },
-  exam: {
-    icon: Target,
-    accent: 'bg-[var(--primary-soft)]',
-    iconWrap: 'bg-[var(--ink)] text-white',
-    anchor: 'exam-prep',
-  },
-};
-
-const order: ServiceKey[] = ['private', 'conversation', 'school', 'exam'];
-
-const relevance: Record<AudienceKey, ServiceKey[]> = {
-  kids: ['private', 'school'],
-  teens: ['school', 'exam', 'private'],
-  adults: ['conversation', 'private', 'exam'],
-  child: ['school', 'private'],
-};
 
 interface ServicesSectionProps {
   locale: Locale;
@@ -51,7 +13,7 @@ interface ServicesSectionProps {
 }
 
 export function ServicesSection({ locale, dict, selectedAudience }: ServicesSectionProps) {
-  const relevant = selectedAudience ? relevance[selectedAudience] : [];
+  const relevant = selectedAudience ? AUDIENCE_RELEVANCE[selectedAudience] : [];
   const isRtl = dict.dir === 'rtl';
   const Arrow = isRtl ? ArrowLeft : ArrowRight;
 
@@ -70,7 +32,7 @@ export function ServicesSection({ locale, dict, selectedAudience }: ServicesSect
         />
       </Reveal>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        {order.map((key, index) => {
+        {SERVICE_ORDER.map((key, index) => {
           const service = dict.services.items[key];
           const meta = serviceMeta[key];
           const Icon = meta.icon;
@@ -91,7 +53,7 @@ export function ServicesSection({ locale, dict, selectedAudience }: ServicesSect
                     aria-hidden="true"
                     className={`flex h-12 w-12 items-center justify-center rounded-2xl ${meta.iconWrap}`}
                   >
-                    <Icon size={24} />
+                    <Icon size={24} weight="duotone" />
                   </span>
                   <div>
                     <h3 className="text-lg font-bold leading-snug">{service.title}</h3>

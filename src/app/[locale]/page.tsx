@@ -42,12 +42,12 @@ export default async function HomePage({ params }: HomePageProps) {
     <main id="main-content">
       <HeroSection locale={locale} dict={dict} />
       <HomeTop locale={locale} dict={dict} />
-      <WhyOmaimaSection dict={dict} />
       <TeachingMethodSection dict={dict} />
       <QuizTeaser locale={locale} dict={dict} />
       <AssessmentTeaser locale={locale} dict={dict} />
       <LearningPathsSection locale={locale} dict={dict} />
       <ExpectationsSection dict={dict} />
+      <WhyOmaimaSection dict={dict} />
       <AboutPreview locale={locale} dict={dict} />
       <FaqSection dict={dict} />
       <FinalCta locale={locale} dict={dict} />

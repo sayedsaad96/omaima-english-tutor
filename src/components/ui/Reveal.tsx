@@ -18,6 +18,11 @@ export function Reveal({ children, className = '', as = 'div', delay = 0, varian
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    // No IntersectionObserver support (very old browsers): never hide content.
+    if (!('IntersectionObserver' in window)) {
+      node.classList.add('is-visible');
+      return;
+    }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       node.classList.add('is-visible');
       return;

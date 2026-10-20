@@ -19,6 +19,14 @@ test('theme toggle switches modes and persists across reload', async ({ page }) 
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
+test('theme toggle is announced in Arabic on /ar', async ({ page }) => {
+  await page.goto('/ar');
+  const toggle = page.getByRole('button', { name: 'التبديل إلى الوضع الليلي' });
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByRole('button', { name: 'التبديل إلى الوضع النهاري' })).toBeVisible();
+});
+
 test('axe finds no serious violations on dark home', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('omaima-theme', 'dark');

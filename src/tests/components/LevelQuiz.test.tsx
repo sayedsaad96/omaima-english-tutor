@@ -48,6 +48,17 @@ describe('LevelQuiz', () => {
     expect(screen.queryByText(QUIZ_QUESTIONS[0].prompt)).not.toBeInTheDocument();
   });
 
+  it('moves focus to the new prompt when advancing', async () => {
+    const user = userEvent.setup({ delay: null });
+    render(<LevelQuiz locale="en" dict={en} />);
+
+    await user.click(screen.getByRole('radio', { name: QUIZ_QUESTIONS[0].choices[0].label }));
+    await user.click(screen.getByRole('button', { name: en.quiz.next }));
+
+    expect(screen.getByText(QUIZ_QUESTIONS[1].prompt)).toBeVisible();
+    expect(document.activeElement).toHaveTextContent(QUIZ_QUESTIONS[1].prompt);
+  });
+
   it('shows an indicative result with disclaimer and supports retake', async () => {
     const user = userEvent.setup({ delay: null });
     render(<LevelQuiz locale="en" dict={en} />);
@@ -57,7 +68,7 @@ describe('LevelQuiz', () => {
     expect(screen.getByText(en.quiz.disclaimer)).toBeVisible();
     expect(
       screen.getByRole('link', { name: en.quiz.bookCta }),
-    ).toHaveAttribute('href', '/en/free-assessment');
+    ).toHaveAttribute('href', '/en/free-assessment#quizBand=intermediatePlus');
 
     await user.click(screen.getByRole('button', { name: en.quiz.retake }));
     expect(screen.getByText(QUIZ_QUESTIONS[0].prompt)).toBeVisible();

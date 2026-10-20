@@ -1,18 +1,41 @@
 import type { Locale } from '@/i18n/locales';
+import type { SiteDictionary } from '@/content/types';
+import type { BookingContext } from './context';
 import type { AssessmentData } from './assessment';
 
-const labels: Record<Locale, Record<string, Record<string, string>>> = {
+const labels: Record<Locale, Record<string, string>> = {
   en: {
-    field: {
-      intro: 'Hello Omaima! I would like to book my free assessment (15–20 minutes).',
-      name: 'Name',
-      whatsapp: 'WhatsApp',
-      learnerFor: 'Lesson for',
-      ageGroup: 'Age group',
-      goal: 'Goal',
-      currentLevel: 'Current level',
-      format: 'Format',
-    },
+    intro: 'Hello Omaima! I would like to book my free assessment (15–20 minutes).',
+    name: 'Name',
+    whatsapp: 'WhatsApp',
+    learnerFor: 'Lesson for',
+    ageGroup: 'Age group',
+    goal: 'Goal',
+    currentLevel: 'Current level',
+    format: 'Format',
+    guidance: 'Guidance (indicative, changeable):',
+    serviceSource: 'Service',
+    pathSource: 'Learning path',
+    quizSource: 'Quiz result',
+  },
+  ar: {
+    intro: 'أهلاً أميمة! عايز أحجز التقييم المجاني (١٥–٢٠ دقيقة).',
+    name: 'الاسم',
+    whatsapp: 'واتساب',
+    learnerFor: 'الدرس لـ',
+    ageGroup: 'الفئة العمرية',
+    goal: 'الهدف',
+    currentLevel: 'المستوى الحالي',
+    format: 'الشكل',
+    guidance: 'استرشاد (مبدئي وقابل للتغيير):',
+    serviceSource: 'الخدمة',
+    pathSource: 'مسار التعلم',
+    quizSource: 'نتيجة الاختبار',
+  },
+};
+
+const choiceLabels: Record<Locale, Record<string, Record<string, string>>> = {
+  en: {
     learnerFor: { myself: 'Myself', myChild: 'My child' },
     ageGroup: { kid: 'Kid', teen: 'Teen', adult: 'Adult' },
     goal: {
@@ -30,16 +53,6 @@ const labels: Record<Locale, Record<string, Record<string, string>>> = {
     format: { online: 'Online', offlineIfAvailable: 'Offline if available' },
   },
   ar: {
-    field: {
-      intro: 'أهلاً أميمة! عايز أحجز التقييم المجاني (١٥–٢٠ دقيقة).',
-      name: 'الاسم',
-      whatsapp: 'واتساب',
-      learnerFor: 'الدرس لـ',
-      ageGroup: 'الفئة العمرية',
-      goal: 'الهدف',
-      currentLevel: 'المستوى الحالي',
-      format: 'الشكل',
-    },
     learnerFor: { myself: 'ليا', myChild: 'لابني / لبنتي' },
     ageGroup: { kid: 'طفل', teen: 'مراهق', adult: 'بالغ' },
     goal: {
@@ -61,19 +74,43 @@ const labels: Record<Locale, Record<string, Record<string, string>>> = {
 /**
  * Builds a readable multi-line WhatsApp message from assessment answers.
  * Learner data is only placed in this message object — never in the site URL.
+ * Optional visit context (service / path / quiz band) is appended as an
+ * explicitly "indicative" guidance line, using dictionary labels so wording
+ * stays in one place per locale.
  */
-export function buildAssessmentMessage(data: AssessmentData, locale: Locale): string {
+export function buildAssessmentMessage(
+  data: AssessmentData,
+  locale: Locale,
+  dict?: SiteDictionary,
+  context?: BookingContext,
+): string {
   const map = labels[locale];
+  const choices = choiceLabels[locale];
+
+  const guidanceParts: string[] = [];
+  if (context?.service) {
+    guidanceParts.push(`${map.serviceSource}: ${dict?.services.items[context.service].title ?? context.service}`);
+  }
+  if (context?.path) {
+    guidanceParts.push(`${map.pathSource}: ${dict?.paths.items[context.path].name ?? context.path}`);
+  }
+  if (context?.quizBand) {
+    guidanceParts.push(`${map.quizSource}: ${dict?.quiz.bands[context.quizBand].label ?? context.quizBand}`);
+  }
+
   return [
-    map.field.intro,
+    map.intro,
     '',
-    `${map.field.name}: ${data.name}`,
-    `${map.field.whatsapp}: ${data.whatsapp}`,
-    `${map.field.learnerFor}: ${map.learnerFor[data.learnerFor]}`,
-    `${map.field.ageGroup}: ${map.ageGroup[data.ageGroup]}`,
-    `${map.field.goal}: ${map.goal[data.goal]}`,
-    `${map.field.currentLevel}: ${map.currentLevel[data.currentLevel]}`,
-    `${map.field.format}: ${map.format[data.format]}`,
+    `${map.name}: ${data.name}`,
+    `${map.whatsapp}: ${data.whatsapp}`,
+    `${map.learnerFor}: ${choices.learnerFor[data.learnerFor]}`,
+    `${map.ageGroup}: ${choices.ageGroup[data.ageGroup]}`,
+    `${map.goal}: ${choices.goal[data.goal]}`,
+    `${map.currentLevel}: ${choices.currentLevel[data.currentLevel]}`,
+    `${map.format}: ${choices.format[data.format]}`,
+    ...(guidanceParts.length > 0
+      ? ['', `${map.guidance} ${guidanceParts.join(' • ')}`]
+      : []),
   ].join('\n');
 }
 

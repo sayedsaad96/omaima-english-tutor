@@ -30,7 +30,7 @@ export default async function LevelQuizPage({ params }: LevelQuizPageProps) {
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary-text)]">
+      <p className="text-sm font-bold tracking-wide text-[var(--primary-text)]">
         {dict.nav.quiz}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">{dict.quiz.title}</h1>

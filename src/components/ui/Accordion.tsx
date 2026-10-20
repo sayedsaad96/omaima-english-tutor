@@ -1,7 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { CaretDown as ChevronDown } from '@phosphor-icons/react/dist/ssr';
 
 export interface AccordionItem {
   id: string;

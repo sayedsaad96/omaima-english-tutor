@@ -27,7 +27,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
           <p className="mt-2 text-sm text-[var(--muted)]">{dict.footer.tagline}</p>
         </div>
         <nav aria-label={dict.footer.explore}>
-          <p className="text-sm font-bold uppercase tracking-wide text-[var(--muted)]">
+          <p className="text-sm font-bold text-[var(--muted)]">
             {dict.footer.explore}
           </p>
           <ul className="mt-3 space-y-2">
@@ -52,7 +52,7 @@ export function SiteFooter({ locale, dict }: SiteFooterProps) {
           </ul>
         </nav>
         <div>
-          <p className="text-sm font-bold uppercase tracking-wide text-[var(--muted)]">
+          <p className="text-sm font-bold text-[var(--muted)]">
             {dict.footer.contact}
           </p>
           <ul className="mt-3 space-y-2 text-sm font-semibold">

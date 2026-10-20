@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { List as MenuIcon, X as XIcon } from '@phosphor-icons/react/dist/ssr';
+import { usePathname } from 'next/navigation';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
 import { LocaleSwitcher } from './LocaleSwitcher';
@@ -18,6 +19,7 @@ interface SiteHeaderProps {
 export function SiteHeader({ locale, dict }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const links = buildNavLinks(locale, dict.nav);
 
   useEffect(() => {
@@ -59,19 +61,26 @@ export function SiteHeader({ locale, dict }: SiteHeaderProps) {
         </Link>
 
         <nav aria-label={locale === 'ar' ? 'التنقل الرئيسي' : 'Primary'} className="hidden items-center gap-1 md:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-3 py-2 text-sm font-semibold text-[var(--ink)] transition hover:bg-[var(--primary-soft)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            // Exact equality so the home link never lights up for every page.
+            const isCurrent = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={isCurrent ? 'page' : undefined}
+                className={`rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-[var(--primary-soft)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] ${
+                  isCurrent ? 'bg-[var(--primary-soft)] text-[var(--ink)]' : 'text-[var(--ink)]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+          <ThemeToggle labels={dict.theme} />
           <LocaleSwitcher />
           <Link
             href={`/${locale}/free-assessment`}
@@ -87,7 +96,7 @@ export function SiteHeader({ locale, dict }: SiteHeaderProps) {
             aria-label={open ? dict.nav.close : dict.nav.menu}
             className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] md:hidden"
           >
-            {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+            {open ? <XIcon size={22} aria-hidden="true" /> : <MenuIcon size={22} aria-hidden="true" />}
           </button>
         </div>
       </div>

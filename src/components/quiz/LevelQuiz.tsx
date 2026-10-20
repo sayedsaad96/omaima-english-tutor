@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
 import { QUIZ_ANSWER_KEY, QUIZ_QUESTIONS } from '@/content/quiz';
 import { getQuizBand, scoreQuiz } from '@/lib/quiz';
-import { QuizProgress } from './QuizProgress';
 import { QuizQuestion } from './QuizQuestion';
 import { QuizResult } from './QuizResult';
+import { Button } from '@/components/ui/Button';
+import { StepProgress } from '@/components/ui/StepProgress';
 
 type QuizState = {
   index: number;
@@ -32,6 +33,17 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
   const question = QUIZ_QUESTIONS[state.index];
   const selected = state.answers[state.index];
   const isLast = state.index === total - 1;
+  const questionHeadingRef = useRef<HTMLLegendElement | null>(null);
+  const focusReady = useRef(false);
+
+  // Changing question moves focus to the new prompt; never steal it on first render.
+  useEffect(() => {
+    if (!focusReady.current) {
+      focusReady.current = true;
+      return;
+    }
+    questionHeadingRef.current?.focus();
+  }, [state.index]);
 
   function select(choiceId: string) {
     setState((prev) => {
@@ -75,7 +87,7 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
 
   return (
     <div className="flex flex-col gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] sm:p-8">
-      <QuizProgress current={state.index + 1} total={total} label={dict.quiz.questionOf} />
+      <StepProgress current={state.index + 1} total={total} label={dict.quiz.questionOf} />
       <div key={question.id} className="quiz-slide flex flex-col gap-4">
         <QuizQuestion
           prompt={question.prompt}
@@ -84,6 +96,7 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
           selected={selected}
           onSelect={select}
           hint={dict.quiz.chooseAnswer}
+          headingRef={questionHeadingRef}
         />
       </div>
       {!selected && (
@@ -92,22 +105,22 @@ export function LevelQuiz({ locale, dict }: LevelQuizProps) {
         </p>
       )}
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
-        <button
-          type="button"
-          onClick={goBack}
+        <Button
+          variant="secondary"
+          allowsDisabled
           disabled={state.index === 0}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-2 border-[var(--border)] px-7 py-3 text-base font-bold transition enabled:hover:border-[var(--primary)] enabled:hover:text-[var(--primary-text)] disabled:cursor-not-allowed disabled:opacity-40"
+          onClick={goBack}
         >
           {dict.quiz.back}
-        </button>
-        <button
-          type="button"
-          onClick={goNext}
+        </Button>
+        <Button
+          variant="primary"
+          allowsDisabled
           disabled={!selected}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[var(--primary)] px-7 py-3 text-base font-bold text-white transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+          onClick={goNext}
         >
           {isLast ? dict.quiz.finish : dict.quiz.next}
-        </button>
+        </Button>
       </div>
     </div>
   );

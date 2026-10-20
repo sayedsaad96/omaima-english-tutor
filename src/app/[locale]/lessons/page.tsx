@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { User, MessagesSquare, Backpack, Target } from 'lucide-react';
+import { User, Chats as MessagesSquare, Backpack, Target } from '@phosphor-icons/react/dist/ssr';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { isLocale } from '@/i18n/locales';
@@ -42,7 +42,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary-text)]">
+      <p className="text-sm font-bold tracking-wide text-[var(--primary-text)]">
         {dict.nav.lessons}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">
@@ -69,7 +69,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                     aria-hidden="true"
                     className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${meta.wrap}`}
                   >
-                    <Icon size={22} />
+                    <Icon size={22} weight="duotone" />
                   </span>
                   {service.title}
                 </h2>
@@ -85,6 +85,12 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  href={`/${locale}/free-assessment?service=${key}`}
+                  className="mt-4 inline-flex min-h-[44px] w-fit items-center rounded-full border-2 border-[var(--border)] bg-[var(--surface)] px-6 py-2.5 text-base font-bold transition hover:border-[var(--primary)] hover:text-[var(--primary-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+                >
+                  {dict.lessons.serviceCta}
+                </Link>
               </section>
             </Reveal>
           );

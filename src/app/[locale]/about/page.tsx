@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { GraduationCap, Briefcase, Award } from 'lucide-react';
+import { GraduationCap, Briefcase, Medal as Award } from '@phosphor-icons/react/dist/ssr';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { isLocale } from '@/i18n/locales';
@@ -40,7 +40,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <p className="text-sm font-bold uppercase tracking-widest text-[var(--primary-text)]">
+      <p className="text-sm font-bold tracking-wide text-[var(--primary-text)]">
         {dict.nav.about}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold leading-tight sm:text-4xl">{about.title}</h1>
@@ -88,7 +88,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                     aria-hidden="true"
                     className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--primary-soft)] text-[var(--primary-text)]"
                   >
-                    <Icon size={20} />
+                    <Icon size={20} weight="duotone" />
                   </span>
                   {group.title}
                 </h3>

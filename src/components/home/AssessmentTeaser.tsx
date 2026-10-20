@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { CalendarCheck, Check } from 'lucide-react';
+import { CalendarCheck, Check } from '@phosphor-icons/react/dist/ssr';
 import type { Locale } from '@/i18n/locales';
 import type { SiteDictionary } from '@/content/types';
+import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 
 export function AssessmentTeaser({ locale, dict }: { locale: Locale; dict: SiteDictionary }) {
@@ -31,7 +31,7 @@ export function AssessmentTeaser({ locale, dict }: { locale: Locale; dict: SiteD
                     aria-hidden="true"
                     className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--mint)] text-[var(--success)]"
                   >
-                    <Check size={14} strokeWidth={3} />
+                    <Check size={14} weight="bold" />
                   </span>
                   {bullet}
                 </li>
@@ -39,12 +39,17 @@ export function AssessmentTeaser({ locale, dict }: { locale: Locale; dict: SiteD
             </ul>
             <p className="text-sm font-semibold text-[var(--muted)]">{dict.assessmentTeaser.note}</p>
           </div>
-          <Link
+          <Button
+            variant="primary"
+            size="lg"
+            shine
+            press
+            softShadow
+            className="relative"
             href={`/${locale}/free-assessment`}
-            className="btn-shine btn-press relative inline-flex min-h-[56px] items-center justify-center rounded-full bg-[var(--primary)] px-8 py-4 text-lg font-bold text-white shadow-[var(--shadow-soft)] transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
           >
             {dict.assessmentTeaser.cta}
-          </Link>
+          </Button>
         </div>
       </Reveal>
     </section>

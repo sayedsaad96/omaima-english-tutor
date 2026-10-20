@@ -1,4 +1,4 @@
-import { Sparkle } from 'lucide-react';
+import { Sparkle } from '@phosphor-icons/react/dist/ssr';
 import type { SiteDictionary } from '@/content/types';
 import { testimonials } from '@/content/social';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -40,7 +40,7 @@ export function ExpectationsSection({ dict }: { dict: SiteDictionary }) {
                   aria-hidden="true"
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]"
                 >
-                  <Sparkle size={18} />
+                  <Sparkle size={18} weight="duotone" />
                 </span>
                 <div>
                   <h3 className="text-base font-bold">{item.title}</h3>
