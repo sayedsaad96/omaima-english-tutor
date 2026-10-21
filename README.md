@@ -27,7 +27,7 @@ Plan: `docs/superpowers/plan/2026-09-17-omaima-english-tutor-website-implementat
 ## Tech stack
 
 Next.js App Router · React · TypeScript · Tailwind CSS · Zod · Vitest +
-React Testing Library · Playwright + axe-core · ESLint · Vercel
+React Testing Library · Playwright + axe-core · ESLint · Cloudflare Pages
 
 ## Local setup
 
@@ -70,7 +70,8 @@ NEXT_PUBLIC_WHATSAPP_NUMBER=201111111111 npm run test:e2e
 ## Verification rig
 
 The official check is `npm run verify` (lint → typecheck → unit → build).
-CI (`.github/workflows/ci.yml`, Node 22) runs the same steps plus `test:e2e`.
+CI (`.github/workflows/ci.yml`, Node 22) runs the same steps plus `test:e2e`
+and a Cloudflare Pages export build with `CF_PAGES=1`.
 
 Conditions that matter (Go "B07"):
 
@@ -101,18 +102,46 @@ Conditions that matter (Go "B07"):
   it (closes the `configLoader: 'native'` warning without touching package
   module type).
 
-## Deployment (Vercel)
+## Deployment (Cloudflare Pages)
 
-1. Import the GitHub repository in Vercel.
-2. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS domain,
-   `NEXT_PUBLIC_WHATSAPP_NUMBER` to the verified number, and optionally
-   `NEXT_PUBLIC_CONTACT_EMAIL`.
-3. Deploy from `main` and verify:
+1. In Cloudflare **Workers & Pages**, create a **Pages** application and import
+   the private GitHub repository `sayedsaad96/omaima-english-tutor`. Allow the
+   Cloudflare GitHub integration to access this repository.
+2. Use these build settings:
 
-```bash
-curl -I "$PRODUCTION_URL/en"
-curl -I "$PRODUCTION_URL/ar"
+   | Setting | Value |
+   | --- | --- |
+   | Production branch | `main` |
+   | Framework preset | Next.js (Static HTML Export) |
+   | Build command | `npm run build` |
+   | Build output directory | `out` |
+   | Root directory | Repository root |
+   | Node.js | 22 (from `.node-version`) |
+
+3. Set `NEXT_PUBLIC_SITE_URL` to your final HTTPS domain (or your assigned
+   `https://<project-name>.pages.dev` address), `NEXT_PUBLIC_WHATSAPP_NUMBER` to
+   the verified number, and optionally `NEXT_PUBLIC_CONTACT_EMAIL`. Set these
+   before the first build; changing them requires a new deployment.
+4. Deploy, then check `/`, `/en`, `/ar`, a nested page such as `/ar/lessons`,
+   `/robots.txt`, `/sitemap.xml`, the images, and the WhatsApp booking link.
+
+Cloudflare automatically sets `CF_PAGES=1`. `next.config.ts` uses this to export
+static files into `out` and serve the existing WebP images directly. The local
+development and normal Next.js production server keep their existing behavior.
+`public/_redirects` sends `/` to `/en` on Pages. No Worker or server adapter is
+required for the current site.
+
+To check the Pages export locally in PowerShell after `npm run verify`:
+
+```powershell
+$env:CF_PAGES = '1'
+npm run build
+Remove-Item Env:CF_PAGES
 ```
+
+For the platform setup, see the [Cloudflare static Next.js guide](https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/).
+If a build fails while downloading Google fonts, check network access and retry.
+Keep `.env.local` outside Git; enter the deployment values in Cloudflare.
 
 ## Before public launch
 

@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
 import { locales } from '@/i18n/locales';
 
+export const dynamic = 'force-static';
+
 const paths = ['', '/about', '/lessons', '/level-quiz', '/free-assessment', '/privacy'];
 
 export default function sitemap(): MetadataRoute.Sitemap {
